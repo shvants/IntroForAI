@@ -11,3 +11,8 @@ class search_node():
 
     def get_neighbors(self):
         return self.state.get_neighbors()
+
+    def update_node(self, other):
+        self.g = other.g
+        self.state = other.state
+        self.prev = other.prev
