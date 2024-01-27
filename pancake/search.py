@@ -48,7 +48,7 @@ def duplicate_in_open(node, open_set):
     state_str = node.state.get_state_str()
     if state_str in dictionary and dictionary[state_str].g <= node.g:
         return True
-    #updatenode happens in the add
+    #updatenode happens in the add function
     return False
 
 # returns False if curr_neighbor state not in closed_set or has a lower g from the node in closed_set
