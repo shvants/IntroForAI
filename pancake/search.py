@@ -1,59 +1,63 @@
 from search_node import search_node
 import heapq
 
-open_hash = {}
-
-
 def create_open_set():
-    return []
+    return [], {} #creating them as a tuple of (heap,dictionary (hashtable))
 
 
 def create_closed_set():
-    return {}
+    return set()
 
 
-def add_to_open(vn, open_set, open_hash):
-    if open_hash.get(vn.state) is None:
-        heapq.heappush(open_set, vn)
-        open_hash[vn.state] = vn
-    else:
-        existing_node = open_hash[vn.state]
-        existing_node.update_node(vn)
+def add_to_open(node, open_set):
+    heap, dictionary = open_set
+    state_str = node.state.get_state_str()
+    if state_str in dictionary:
+        if dictionary[state_str].g > node.g:
+            # Update existing node's values
+            dictionary[state_str].update_node(node)
+        return
+    heapq.heappush(heap, node)
+    dictionary[state_str] = node
+
 
 
 def open_not_empty(open_set):
-    if open_set:
-        return True
-    return False
+    heap, _ = open_set
+    return len(heap) > 0
 
 
 def get_best(open_set):
-    best = heapq.heappop(open_set)
-    open_hash.pop(best.state)
-    return best
+    heap, dictionary = open_set
+    while heap:
+        node = heapq.heappop(heap)
+        state_str = node.state.get_state_str()
+        if dictionary.get(state_str) is node:
+            return node
+    return None
 
+def add_to_closed(node, closed_set):
+    closed_set.add(node.state.get_state_str())
 
-def add_to_closed(vn, closed_set):
-    pass
 
 
 # returns False if curr_neighbor state not in open_set or has a lower g from the node in open_set
 # remove the node with the higher g from open_set (if exists)
-def duplicate_in_open(vn, open_set):
-    if open_hash.get(vn.state) is None:
-        return False
-    elif open_hash.get(vn.state).g > vn.g:
-
-
-
-    else:
+def duplicate_in_open(node, open_set):
+    hp, dictionary = open_set
+    state_str = node.state.get_state_str()
+    if state_str in dictionary and dictionary[state_str].g <= node.g:
         return True
-
+    #updatenode happens in the add
+    return False
 
 # returns False if curr_neighbor state not in closed_set or has a lower g from the node in closed_set
 # remove the node with the higher g from closed_set (if exists)
-def duplicate_in_closed(vn, closed_set):
-    pass
+def duplicate_in_closed(node, closed_set):
+    state_str = node.state.get_state_str()
+    if state_str in closed_set:
+        return True
+    return False
 
 
 def print_path(path):
@@ -63,7 +67,7 @@ def print_path(path):
 
 
 def search(start_state, heuristic, goal_state):
-    open_set = create_open_set()  # minimum heap
+    open_set = create_open_set()
     closed_set = create_closed_set()
     start_node = search_node(start_state, 0, heuristic(start_state))
     add_to_open(start_node, open_set)
@@ -88,3 +92,4 @@ def search(start_state, heuristic, goal_state):
                 add_to_open(curr_neighbor, open_set)
 
     return None
+

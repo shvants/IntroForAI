@@ -12,7 +12,15 @@ class search_node():
     def get_neighbors(self):
         return self.state.get_neighbors()
 
-    def update_node(self, other):
-        self.g = other.g
-        self.state = other.state
-        self.prev = other.prev
+
+    def update_node(existing_node, new_node):
+        """
+        Updates the existing search_node with the values from the new search_node.
+
+        :param existing_node: The search_node to be updated.
+        :param new_node: The search_node with the new values.
+        """
+        existing_node.g = new_node.g
+        existing_node.h = new_node.h
+        existing_node.f = new_node.f
+        existing_node.prev = new_node.prev
