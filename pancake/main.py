@@ -15,6 +15,8 @@ import timeit
 
 
 if __name__ == '__main__':
+    goal_state = "4,3,2,1"
+    pancake_input = "4,2,3,1"
     goal_state = "9,8,7,6,5,4,3,2,1"
     pancake_input = "5,2,1,9,7,6,3,4,8"
     pancake_state = pancake_state(pancake_input)

@@ -1,20 +1,17 @@
-def base_heuristic(_pancake_state):
-    # Get the state string from the _pancake_state object
-    state_str = _pancake_state.state_str
+def base_heuristic(pancake_state):
+    state_str = pancake_state.get_state_str()
+    pancakes = list(map(int, state_str.split(',')))
+    total_pancakes = len(pancakes)
     heuristic_value = 0
 
-    # Split the state string into a list of pancakes
-    pancakes = state_str.split(',')
-
-    # Iterate through the pancakes from top to bottom
-    for i in range(len(pancakes)):
-        # Check if the pancake is not in its correct position
-        if int(pancakes[i]) != i + 1:
-            # Add the value of the pancake to the heuristic
-            heuristic_value += int(pancakes[i])
-            # print(heuristic_value)
+    for i in range(total_pancakes):
+        current_pancake = pancakes[i]
+        if current_pancake != total_pancakes - i:
+            heuristic_value = sum(pancakes[i:])
+            break
 
     return heuristic_value
+
 
 def advanced_heuristic(_pancake_state):
     state_str = _pancake_state.state_str
