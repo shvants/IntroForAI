@@ -34,7 +34,7 @@ if __name__ == '__main__':
         # Print base heuristic search results g values
         for i in search_result:
             print("Base g value:", i.g)
-            # print("Base h value:", i.h)
+            print("Base h value:", i.h)
 
 
         # Measure execution time for advanced heuristic search
@@ -46,6 +46,6 @@ if __name__ == '__main__':
         # Print advanced heuristic search results g values
         for i in search_resultAdv:
             print("Advanced g value:", i.g)
-            # print("Advanced h value:", i.h)
+            print("Advanced h value:", i.h)
 
         print("----------")
